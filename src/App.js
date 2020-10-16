@@ -12,7 +12,7 @@ function App(props) {
 
   return (
     <>
-      <Nav />
+      <Nav auth={auth}/>
       <div className="body">
         <Route 
           path="/" 
