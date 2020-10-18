@@ -5,6 +5,7 @@ import Profile from "./Profile";
 import Nav from "./Nav";
 import Auth from './Auth/Auth';
 import Callback from './Callback';
+import Public from './Public';
 
 function App(props) {
 
@@ -30,6 +31,11 @@ function App(props) {
           render={props => auth.isAuthenticated() ? 
             <Profile auth={auth} {...props}/> :
             <Redirect to="/"/>}
+        />
+
+        <Route
+          path="/public"
+          component={Public}
         />
       </div>
     </>
