@@ -7,6 +7,7 @@ import Auth from './Auth/Auth';
 import Callback from './Callback';
 import Public from './Public';
 import Private from './Private';
+import Courses from './Courses';
 
 function App(props) {
 
@@ -43,6 +44,13 @@ function App(props) {
           path="/private" 
           render={props => auth.isAuthenticated() ? 
             <Private auth={auth} {...props}/> : 
+            auth.login()} 
+        />
+
+        <Route 
+          path="/courses" 
+          render={props => auth.isAuthenticated() && auth.userHasScopes(["read:courses"]) ? 
+            <Courses auth={auth} {...props}/> : 
             auth.login()} 
         />
                 
