@@ -24,6 +24,24 @@ const Courses = (props) => {
       .catch(error => {
         setState({message: error.message});
       })
+
+    fetch("/admin", {
+      headers: { Authorization: `Bearer ${props.auth.getAccessToken()}`}
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log(response)
+          return response.json();
+        }
+
+        throw new Error("Response whas not OK");
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        setState({message: error.message});
+      })
   }, [props.auth]);
 
   return (
