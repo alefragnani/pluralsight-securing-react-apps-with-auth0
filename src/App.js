@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
 import Nav from "./Nav";
@@ -8,6 +8,7 @@ import Callback from './Callback';
 import Public from './Public';
 import Private from './Private';
 import Courses from './Courses';
+import PrivateRoute from './PrivateRoute';
 
 function App(props) {
 
@@ -28,30 +29,28 @@ function App(props) {
           render={props => <Callback auth={auth} {...props}/>} 
         />
         
-        <Route 
-          path="/profile"
-          render={props => auth.isAuthenticated() ? 
-            <Profile auth={auth} {...props}/> :
-            <Redirect to="/"/>}
-        />
+        <PrivateRoute 
+          path="/profile" 
+          auth={auth}
+          component={Profile} 
+          />
 
         <Route
           path="/public"
           component={Public}
-        />
+          />
 
-        <Route 
+        <PrivateRoute 
           path="/private" 
-          render={props => auth.isAuthenticated() ? 
-            <Private auth={auth} {...props}/> : 
-            auth.login()} 
-        />
+          auth={auth}
+          component={Private}
+          />
 
-        <Route 
+        <PrivateRoute 
           path="/courses" 
-          render={props => auth.isAuthenticated() && auth.userHasScopes(["read:courses"]) ? 
-            <Courses auth={auth} {...props}/> : 
-            auth.login()} 
+          component={Courses}
+          auth={auth}
+          scopes={["read:courses"]}
         />
                 
       </div>
