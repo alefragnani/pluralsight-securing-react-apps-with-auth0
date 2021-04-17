@@ -9,13 +9,18 @@ import Public from './Public';
 import Private from './Private';
 import Courses from './Courses';
 import PrivateRoute from './PrivateRoute';
+import AuthContext from "./AuthContext";
 
 function App(props) {
 
-  const auth = new Auth(props.history)
+  const [state, setState] = React.useState({
+    auth: new Auth(props.history)
+  });
+
+  const { auth } = state;
 
   return (
-    <>
+    <AuthContext.Provider value={auth}>
       <Nav auth={auth}/>
       <div className="body">
         <Route 
@@ -31,7 +36,6 @@ function App(props) {
         
         <PrivateRoute 
           path="/profile" 
-          auth={auth}
           component={Profile} 
           />
 
@@ -42,19 +46,17 @@ function App(props) {
 
         <PrivateRoute 
           path="/private" 
-          auth={auth}
           component={Private}
           />
 
         <PrivateRoute 
           path="/courses" 
           component={Courses}
-          auth={auth}
           scopes={["read:courses"]}
         />
                 
       </div>
-    </>
+    </AuthContext.Provider>
   );
 }
 
